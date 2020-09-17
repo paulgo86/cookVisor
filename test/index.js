@@ -19,6 +19,12 @@ var test3 = async () => {
     let idInput = 'login_input_username';
     let pwInput = 'login_input_password';
     let loginBtn = 'button-login';
+    let screenElementId = 'snapshot'; // el.id
+    let radioElementsName = 'image-mode'; // el.name
+    let maxTemperature = 'temp-global-max'; // el.class
+    let minTemperature = 'temp-global-min'; // el.class
+
+
     let driver = await new Builder().forBrowser('chrome').build();
 
     function check_login(){
@@ -39,7 +45,7 @@ var test3 = async () => {
         await delay(5);
         let inputForId = await driver.findElement(By.id(idInput));
         let inputForPw = await driver.findElement(By.id(pwInput));
-        let buttonForLogin = driver.findElement(By.id(loginBtn));
+        let buttonForLogin = await driver.findElement(By.id(loginBtn));
 
         inputForId.sendKeys(user.id);
         inputForPw.sendKeys(user.pw);
@@ -62,8 +68,16 @@ var test3 = async () => {
         let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         buttonForFullscreen.click();
 
+        let startTime = new Date().getTime();
+        let duration = 120 // minute
+        let endTime = startTime + (duration * 60 * 1000);
+
+
         await delay(1);
-        while(waitCount<30){
+        let now = new Date().getTime();
+        while(now < endTime){
+            now = new Date().getTime();
+
             let data = await driver.takeScreenshot();
             let dateDay = new Date().toLocaleDateString();
             let hour = new Date().getHours();
