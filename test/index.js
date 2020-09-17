@@ -1,7 +1,6 @@
 const fs = require('fs');
 const {Builder, By, Key, until} = require('selenium-webdriver');
 
-
 var delay = (secondToDelay)=>{
     return new Promise(resolve=>{
         setTimeout(()=>{
@@ -9,8 +8,83 @@ var delay = (secondToDelay)=>{
         },secondToDelay * 1000);
     });
 }
+var test3 = async () => {
+    let uri = 'http://192.168.0.11/login';
+    let user = {
+        id:'admin',
+        pw:'admin'
+    }
+    let waitCount =0;
+    let fullBtn = 'button-fullscreen';
+    let idInput = 'login_input_username';
+    let pwInput = 'login_input_password';
+    let loginBtn = 'button-login';
+    let driver = await new Builder().forBrowser('chrome').build();
+
+    function check_login(){
+        var promise = driver.findElement(By.id(fullBtn)).then(function(el){
+            if(el){
+                console.log('login success');
+                return true;
+            }
+        })
+        return promise;
+    }
+
+    try{
+        
 
 
+        await driver.get(uri);
+        await delay(5);
+        let inputForId = await driver.findElement(By.id(idInput));
+        let inputForPw = await driver.findElement(By.id(pwInput));
+        let buttonForLogin = driver.findElement(By.id(loginBtn));
+
+        inputForId.sendKeys(user.id);
+        inputForPw.sendKeys(user.pw);
+        buttonForLogin.click();
+
+        await delay(5);
+
+        
+
+    }catch(e){
+        console.log(e,'login process error');
+    }finally{
+        console.log('login process done');
+    }
+
+
+    try {
+        
+        driver.wait(check_login,10000);
+        let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
+        buttonForFullscreen.click();
+
+        await delay(1);
+        while(waitCount<30){
+            let data = await driver.takeScreenshot();
+            let dateDay = new Date().toLocaleDateString();
+            let hour = new Date().getHours();
+            let minute = new Date().getMinutes();
+            let second = new Date().getSeconds();
+            let date = `${dateDay} ${hour}시${minute}분${second}초`;
+            let fileName = '['+date+'] image_'+waitCount+'.jpg';
+            fs.writeFileSync(fileName,data,'base64');
+            await delay(1);
+            waitCount+=1;
+            console.log('captured image count :' + waitCount);
+        }
+    } catch (e) {
+        
+    }finally{
+
+    }
+
+
+}
+//test3();
 
 var test2 = async () => {
     
