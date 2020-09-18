@@ -178,9 +178,15 @@ var test3 = async () => {
             radioTab.click();
             // radioForChannel[2].click();
             await delay(0.3);
-            await driver.findElements(By.name(radioElementsName)).then(function(els){
-                els[2].click();
-            });
+            let radios = await driver.findElements(By.name(radioElementsName));
+            console.log('=======================================');
+            console.log('=======================================');
+            console.log('=======================================\n\n');
+            console.log(radios);
+            console.log('\n\n=======================================');
+            console.log('=======================================');
+            console.log('=======================================');
+            radios[2].click();
             await delay(0.3);
             await driver.findElement(By.id(screenElementId)).then(function(el){
                 el.click();
