@@ -109,11 +109,16 @@ var test3 = async () => {
         console.log('set temperature scope start');
         await driver.findElements(By.className(maxTemperature)).then(function(els){
             if(els.length){
-                els[0].sendKeys(maxTemp,Key.ENTER);
+                els[0].click();
+                els[0].sendKeys(maxTemp);
                 return true;
             }
         });
-        await delay(2);
+        await delay(1);
+        await driver.findElement(By.id(screenElementId)).then(function(el){
+            el.click();
+        })
+        await delay(1);
         console.log('[ setting temperature ] max - temperature : ',maxTemp);
         // await driver.findElements(By.className(minTemperature)).then(function(els){
         //     if(els.length){
@@ -126,9 +131,9 @@ var test3 = async () => {
         // console.log('[ setting temperature ] min - temperature : ',minTemp);
     }catch(e){
         console.log(e);
-        console.log('set temperature scope error');
+        console.log('[ setting temperature ] set temperature scope error');
     }finally{
-        console.log('set temperature scope done');
+        console.log('[ setting temperature ] set temperature scope done');
 
     }
 
