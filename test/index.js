@@ -8,6 +8,22 @@ var delay = (secondToDelay)=>{
         },secondToDelay * 1000);
     });
 }
+
+var zeroPadding = (number,size)=>{
+    let result = '';    
+    let pivot = 1;
+    number = number * 1;
+    size = size * 1;
+
+    for(let i=0; i<size; i++){
+        let num = (number%(pivot*10) - number%pivot)/pivot;
+        pivot = pivot * 10;
+        result = num + result;
+    }
+
+    return result;
+}
+
 var test3 = async () => {
     let uri = 'http://192.168.0.11/login';
     let user = {
@@ -24,8 +40,31 @@ var test3 = async () => {
     let maxTemperature = 'temp-global-max'; // el.class
     let minTemperature = 'temp-global-min'; // el.class
 
+    const minTemp = 0;
+    const maxTemp = 100;
 
     let driver = await new Builder().forBrowser('chrome').build();
+
+    function setMaxTemp(){
+        var promise = await driver.findElements(By.className(maxTemperature)).then(function(els){
+            if(els.length){
+                els[0].sendKeys(maxTemp,Key.ENTER);
+                return true;
+            }
+        })
+        return promise;
+    }
+
+    function setMinTemp(){
+        var promise = await driver.findElements(By.className(minTemperature)).then(function(els){
+            if(els.length){
+                els[0].sendKeys(minTemp,Key.ENTER);
+                return true;
+            }
+        })
+        return promise;
+    }
+
 
     function check_login(){
         var promise = driver.findElement(By.id(fullBtn)).then(function(el){
@@ -35,12 +74,14 @@ var test3 = async () => {
             }
         })
         return promise;
+    
     }
 
+
+
+    // Login part
+
     try{
-        
-
-
         await driver.get(uri);
         await delay(5);
         let inputForId = await driver.findElement(By.id(idInput));
@@ -52,14 +93,44 @@ var test3 = async () => {
         buttonForLogin.click();
 
         await delay(5);
-
-        
-
     }catch(e){
         console.log(e,'login process error');
     }finally{
         console.log('login process done');
     }
+
+
+
+    // Set temperature scope part
+
+    try {
+        console.log('set temperature scope start');
+        await driver.findElements(By.className(maxTemperature)).then(function(els){
+            if(els.length){
+                els[0].sendKeys(maxTemp,Key.ENTER);
+                return true;
+            }
+        });
+
+        await driver.findElements(By.className(minTemperature)).then(function(els){
+            if(els.length){
+                els[0].sendKeys(minTemp,Key.ENTER);
+                return true;
+            }
+        });
+    }catch(e){
+        console.log(e);
+        console.log('set temperature scope error');
+    }finally{
+        console.log('set temperature scope done');
+
+    }
+
+
+
+    // take screen shot
+
+    
 
 
     try {
@@ -68,25 +139,51 @@ var test3 = async () => {
         let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         buttonForFullscreen.click();
 
+        let radioForChannel = await driver.findElements(By.name(radioElementsName));
+
         let startTime = new Date().getTime();
         let duration = 120 // minute
         let endTime = startTime + (duration * 60 * 1000);
+        let serialNumber = 0;
+
+        
 
 
         await delay(1);
         let now = new Date().getTime();
         while(now < endTime){
+            serialNumber += 1;
             now = new Date().getTime();
 
-            let data = await driver.takeScreenshot();
-            let dateDay = new Date().toLocaleDateString();
-            let hour = new Date().getHours();
-            let minute = new Date().getMinutes();
-            let second = new Date().getSeconds();
-            let date = `${dateDay} ${hour}시${minute}분${second}초`;
-            let fileName = '['+date+'] image_'+waitCount+'.jpg';
-            fs.writeFileSync(fileName,data,'base64');
-            await delay(1);
+            // fileNameBase
+            let fileName = zeroPadding(serialNumber,7)+'_'+ now +'.jpg';
+
+
+            // msx - radio 0
+
+            // visual - radio 2
+            let visualName = 'v_'+fileName
+            radioForChannel[2].click();
+
+            await delay(0.2);
+            let vdata = await driver.takeScreenshot();
+            fs.writeFileSync(visualName,vdata,'base64');
+
+
+            // thermal - radio 1
+            let thermalName = 't_'+fileName
+            radioForChannel[1].click();
+            await delay(0.2);
+
+            let tdata = await driver.takeScreenshot();
+            // let dateDay = new Date().toLocaleDateString();
+            // let hour = new Date().getHours();
+            // let minute = new Date().getMinutes();
+            // let second = new Date().getSeconds();
+            // let date = `${dateDay} ${hour}시${minute}분${second}초`;
+            
+            fs.writeFileSync(thermalName,tdata,'base64');
+            await delay(0.6);
             waitCount+=1;
             console.log('captured image count :' + waitCount);
         }
@@ -98,7 +195,7 @@ var test3 = async () => {
 
 
 }
-//test3();
+test3();
 
 var test2 = async () => {
     
@@ -228,7 +325,7 @@ var test2 = async () => {
         await driver.quit();
     }
 }
-test2();
+// test2();
 
 var test = async () => {
     var webdriver = require('selenium-webdriver'),
