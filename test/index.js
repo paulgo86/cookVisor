@@ -150,9 +150,9 @@ var test3 = async () => {
         // fullScreen
         // let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         // buttonForFullscreen.click();
-        // let radioTab = await driver.findElement(By.id('button-image-mode'));
-        
-        let radios = await driver.findElements(By.xpath('//input[@name=image-mode]'));
+        let radioTab = await driver.findElement(By.id('button-image-mode'));
+        radioTab.click();
+        let radios = await driver.findElements(By.xpath('//input[@name="image-mode"]'));
         let labelVisual = radios[2].findElement(By.xpath('./..'));
         let labelThermal = radios[1].findElement(By.xpath('./..'));
 
@@ -183,7 +183,7 @@ var test3 = async () => {
             
             
             // radioForChannel[2].click();
-            await delay(0.3);
+            // await delay(3);
             
             
             labelVisual.click();
@@ -193,7 +193,9 @@ var test3 = async () => {
             // })
             
             
-            await delay(0.3);
+            await delay(1);
+
+            // image file save
             let vdata = await driver.takeScreenshot();
             fs.writeFileSync(visualName,vdata,'base64');
 
@@ -202,22 +204,21 @@ var test3 = async () => {
             let thermalName = 'images/t_'+fileName
             // radioTab.click();
             // radioForChannel[1].click();            
-            await delay(0.3);
+            // await delay(0.3);
             labelThermal.click();
             // await delay(0.3);
             // await driver.findElement(By.id(screenElementId)).then(function(el){
             //     el.click();
             // })
-            await delay(0.3);
+            await delay(1);
             
-            let tdata = await driver.takeScreenshot();
-            // let dateDay = new Date().toLocaleDateString();
-            // let hour = new Date().getHours();
-            // let minute = new Date().getMinutes();
-            // let second = new Date().getSeconds();
-            // let date = `${dateDay} ${hour}시${minute}분${second}초`;
-            
+
+            // image file save
+            let tdata = await driver.takeScreenshot();            
             fs.writeFileSync(thermalName,tdata,'base64');
+
+
+
             await delay(1);
             waitCount+=1;
             console.log('captured image count :' + waitCount);
