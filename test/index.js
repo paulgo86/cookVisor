@@ -153,7 +153,7 @@ var test3 = async () => {
         let radioTab = await driver.findElement(By.id('button-image-mode'));
         radioTab.click();
         await delay(1);
-        let radioForChannel = await driver.findElements(By.name(radioElementsName));
+        let radioForChannel = 
 
         let startTime = new Date().getTime();
         let duration = 120 // minute
@@ -178,10 +178,16 @@ var test3 = async () => {
             // visual - radio 2
             let visualName = 'images/v_'+fileName
             radioTab.click();
-            radioForChannel[2].click();
+            // radioForChannel[2].click();
+            await delay(0.3);
+            await driver.findElements(By.name(radioElementsName)).then(function(els){
+                els[2].click();
+            });
+            await delay(0.3);
             await driver.findElement(By.id(screenElementId)).then(function(el){
                 el.click();
             })
+            
             
             await delay(0.3);
             let vdata = await driver.takeScreenshot();
@@ -191,7 +197,12 @@ var test3 = async () => {
             // thermal - radio 1
             let thermalName = 'images/t_'+fileName
             radioTab.click();
-            radioForChannel[1].click();
+            // radioForChannel[1].click();
+            await delay(0.3);
+            await driver.findElements(By.name(radioElementsName)).then(function(els){
+                els[1].click();
+            });
+            await delay(0.3);
             await driver.findElement(By.id(screenElementId)).then(function(el){
                 el.click();
             })
