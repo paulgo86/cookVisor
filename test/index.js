@@ -152,10 +152,10 @@ var test3 = async () => {
         // buttonForFullscreen.click();
         // let radioTab = await driver.findElement(By.id('button-image-mode'));
         
-        let radios = await driver.findElements(By.name(radioElementsName));           
+        let radios = await driver.findElements(By.xpath('//input[@name=image-mode]'));
         let labelVisual = radios[2].findElement(By.xpath('./..'));
         let labelThermal = radios[1].findElement(By.xpath('./..'));
-        
+
         await delay(1);
         let startTime = new Date().getTime();
         let duration = 120 // minute
