@@ -150,9 +150,9 @@ var test3 = async () => {
         // fullScreen
         // let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         // buttonForFullscreen.click();
-        // let radioTab = await driver.findElement(By.id('button-image-mode'));
-        
-        let radios = await driver.findElements(By.xpath('//input[@name=image-mode]'));
+        let radioTab = await driver.findElement(By.id('button-image-mode'));
+        radioTab.click();
+        let radios = await driver.findElements(By.xpath('//input[@name="image-mode"]'));
         let labelVisual = radios[2].findElement(By.xpath('./..'));
         let labelThermal = radios[1].findElement(By.xpath('./..'));
 
