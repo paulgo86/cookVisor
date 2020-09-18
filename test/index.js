@@ -150,8 +150,12 @@ var test3 = async () => {
         // fullScreen
         // let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         // buttonForFullscreen.click();
-        let radioTab = await driver.findElement(By.id('button-image-mode'));
-        radioTab.click();
+        // let radioTab = await driver.findElement(By.id('button-image-mode'));
+        
+        let radios = await driver.findElements(By.name(radioElementsName));           
+        let labelVisual = radios[2].findElement(By.xpath('./..'));
+        let labelThermal = radios[1].findElement(By.xpath('./..'));
+        
         await delay(1);
         let startTime = new Date().getTime();
         let duration = 120 // minute
@@ -175,22 +179,18 @@ var test3 = async () => {
 
             // visual - radio 2
             let visualName = 'images/v_'+fileName
-            radioTab.click();
+            // radioTab.click();
+            
+            
             // radioForChannel[2].click();
             await delay(0.3);
-            let radios = await driver.findElements(By.name(radioElementsName));
-            console.log('=======================================');
-            console.log('=======================================');
-            console.log('=======================================\n\n');
-            console.log(radios);
-            console.log('\n\n=======================================');
-            console.log('=======================================');
-            console.log('=======================================');
-            radios[2].click();
-            await delay(0.3);
-            await driver.findElement(By.id(screenElementId)).then(function(el){
-                el.click();
-            })
+            
+            
+            labelVisual.click();
+            // await delay(0.3);
+            // await driver.findElement(By.id(screenElementId)).then(function(el){
+            //     el.click();
+            // })
             
             
             await delay(0.3);
@@ -200,16 +200,14 @@ var test3 = async () => {
 
             // thermal - radio 1
             let thermalName = 'images/t_'+fileName
-            radioTab.click();
-            // radioForChannel[1].click();
+            // radioTab.click();
+            // radioForChannel[1].click();            
             await delay(0.3);
-            await driver.findElements(By.name(radioElementsName)).then(function(els){
-                els[1].click();
-            });
-            await delay(0.3);
-            await driver.findElement(By.id(screenElementId)).then(function(el){
-                el.click();
-            })
+            labelThermal.click();
+            // await delay(0.3);
+            // await driver.findElement(By.id(screenElementId)).then(function(el){
+            //     el.click();
+            // })
             await delay(0.3);
             
             let tdata = await driver.takeScreenshot();
