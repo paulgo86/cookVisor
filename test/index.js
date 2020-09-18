@@ -113,13 +113,17 @@ var test3 = async () => {
                 return true;
             }
         });
-
+        await delay(2);
+        console.log('[ setting temperature ] max - temperature : ',maxTemp);
         await driver.findElements(By.className(minTemperature)).then(function(els){
             if(els.length){
                 els[0].sendKeys(minTemp,Key.ENTER);
                 return true;
             }
         });
+
+        await delay(2);
+        console.log('[ setting temperature ] min - temperature : ',minTemp);
     }catch(e){
         console.log(e);
         console.log('set temperature scope error');
