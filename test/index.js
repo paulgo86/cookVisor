@@ -115,15 +115,15 @@ var test3 = async () => {
         });
         await delay(2);
         console.log('[ setting temperature ] max - temperature : ',maxTemp);
-        await driver.findElements(By.className(minTemperature)).then(function(els){
-            if(els.length){
-                els[0].sendKeys(minTemp,Key.ENTER);
-                return true;
-            }
-        });
+        // await driver.findElements(By.className(minTemperature)).then(function(els){
+        //     if(els.length){
+        //         els[0].sendKeys(minTemp,Key.ENTER);
+        //         return true;
+        //     }
+        // });
 
-        await delay(2);
-        console.log('[ setting temperature ] min - temperature : ',minTemp);
+        // await delay(2);
+        // console.log('[ setting temperature ] min - temperature : ',minTemp);
     }catch(e){
         console.log(e);
         console.log('set temperature scope error');
