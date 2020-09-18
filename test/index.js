@@ -150,7 +150,9 @@ var test3 = async () => {
         // fullScreen
         // let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
         // buttonForFullscreen.click();
-
+        let radioTab = await driver.findElement(By.id('button-image-mode'));
+        radioTab.click();
+        await delay(1);
         let radioForChannel = await driver.findElements(By.name(radioElementsName));
 
         let startTime = new Date().getTime();
@@ -174,19 +176,27 @@ var test3 = async () => {
             // msx - radio 0
 
             // visual - radio 2
-            let visualName = 'v_'+fileName
+            let visualName = 'images/v_'+fileName
+            radioTab.click();
             radioForChannel[2].click();
-
-            await delay(0.2);
+            await driver.findElement(By.id(screenElementId)).then(function(el){
+                el.click();
+            })
+            
+            await delay(0.3);
             let vdata = await driver.takeScreenshot();
             fs.writeFileSync(visualName,vdata,'base64');
 
 
             // thermal - radio 1
-            let thermalName = 't_'+fileName
+            let thermalName = 'images/t_'+fileName
+            radioTab.click();
             radioForChannel[1].click();
-            await delay(0.2);
-
+            await driver.findElement(By.id(screenElementId)).then(function(el){
+                el.click();
+            })
+            await delay(0.3);
+            
             let tdata = await driver.takeScreenshot();
             // let dateDay = new Date().toLocaleDateString();
             // let hour = new Date().getHours();
@@ -195,7 +205,7 @@ var test3 = async () => {
             // let date = `${dateDay} ${hour}시${minute}분${second}초`;
             
             fs.writeFileSync(thermalName,tdata,'base64');
-            await delay(0.6);
+            await delay(1);
             waitCount+=1;
             console.log('captured image count :' + waitCount);
         }
