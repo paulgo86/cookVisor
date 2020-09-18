@@ -40,30 +40,30 @@ var test3 = async () => {
     let maxTemperature = 'temp-global-max'; // el.class
     let minTemperature = 'temp-global-min'; // el.class
 
-    const minTemp = 0;
+    const minTemp = 4;
     const maxTemp = 100;
 
     let driver = await new Builder().forBrowser('chrome').build();
 
-    function setMaxTemp(){
-        var promise = await driver.findElements(By.className(maxTemperature)).then(function(els){
-            if(els.length){
-                els[0].sendKeys(maxTemp,Key.ENTER);
-                return true;
-            }
-        })
-        return promise;
-    }
+    // function setMaxTemp(){
+    //     var promise = await driver.findElements(By.className(maxTemperature)).then(function(els){
+    //         if(els.length){
+    //             els[0].sendKeys(maxTemp,Key.ENTER);
+    //             return true;
+    //         }
+    //     })
+    //     return promise;
+    // }
 
-    function setMinTemp(){
-        var promise = await driver.findElements(By.className(minTemperature)).then(function(els){
-            if(els.length){
-                els[0].sendKeys(minTemp,Key.ENTER);
-                return true;
-            }
-        })
-        return promise;
-    }
+    // function setMinTemp(){
+    //     var promise = await driver.findElements(By.className(minTemperature)).then(function(els){
+    //         if(els.length){
+    //             els[0].sendKeys(minTemp,Key.ENTER);
+    //             return true;
+    //         }
+    //     })
+    //     return promise;
+    // }
 
 
     function check_login(){
@@ -83,13 +83,15 @@ var test3 = async () => {
 
     try{
         await driver.get(uri);
-        await delay(5);
+        await delay(3);
         let inputForId = await driver.findElement(By.id(idInput));
         let inputForPw = await driver.findElement(By.id(pwInput));
         let buttonForLogin = await driver.findElement(By.id(loginBtn));
 
         inputForId.sendKeys(user.id);
+        await delay(1);
         inputForPw.sendKeys(user.pw);
+        await delay(1);
         buttonForLogin.click();
 
         await delay(5);
@@ -136,8 +138,9 @@ var test3 = async () => {
     try {
         
         driver.wait(check_login,10000);
-        let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
-        buttonForFullscreen.click();
+        // fullScreen
+        // let buttonForFullscreen = await driver.findElement(By.id(fullBtn));
+        // buttonForFullscreen.click();
 
         let radioForChannel = await driver.findElements(By.name(radioElementsName));
 
@@ -162,7 +165,7 @@ var test3 = async () => {
             // msx - radio 0
 
             // visual - radio 2
-            let visualName = 'v_'+fileName
+            let visualName = './images/v_'+fileName
             radioForChannel[2].click();
 
             await delay(0.2);
@@ -171,7 +174,7 @@ var test3 = async () => {
 
 
             // thermal - radio 1
-            let thermalName = 't_'+fileName
+            let thermalName = './images/t_'+fileName
             radioForChannel[1].click();
             await delay(0.2);
 
@@ -188,7 +191,7 @@ var test3 = async () => {
             console.log('captured image count :' + waitCount);
         }
     } catch (e) {
-        
+        console.log(e);
     }finally{
 
     }
