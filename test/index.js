@@ -153,8 +153,6 @@ var test3 = async () => {
         let radioTab = await driver.findElement(By.id('button-image-mode'));
         radioTab.click();
         await delay(1);
-        let radioForChannel = 
-
         let startTime = new Date().getTime();
         let duration = 120 // minute
         let endTime = startTime + (duration * 60 * 1000);
