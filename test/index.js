@@ -156,6 +156,8 @@ var test3 = async () => {
         let labelVisual = radios[2].findElement(By.xpath('./..'));
         let labelThermal = radios[1].findElement(By.xpath('./..'));
 
+        // image panel setting
+        let imagePanel = await driver.findElement(By.id('snapshot'));
         await delay(1);
         let startTime = new Date().getTime();
         let duration = 120 // minute
@@ -196,7 +198,8 @@ var test3 = async () => {
             await delay(1);
 
             // image file save
-            let vdata = await driver.takeScreenshot();
+            // let vdata = await driver.takeScreenshot();
+            let vdata = await imagePanel.takeScreenshot();
             fs.writeFileSync(visualName,vdata,'base64');
 
 
@@ -211,14 +214,10 @@ var test3 = async () => {
             //     el.click();
             // })
             await delay(1);
-            
-
             // image file save
-            let tdata = await driver.takeScreenshot();            
+            // let tdata = await driver.takeScreenshot(); 
+            let tdata = await imagePanel.takeScreenshot();
             fs.writeFileSync(thermalName,tdata,'base64');
-
-
-
             await delay(1);
             waitCount+=1;
             console.log('captured image count :' + waitCount);
