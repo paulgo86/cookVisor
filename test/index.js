@@ -174,7 +174,7 @@ var test3 = async () => {
             // msx - radio 0
 
             // visual - radio 2
-            let visualName = './images/v_'+fileName
+            let visualName = 'v_'+fileName
             radioForChannel[2].click();
 
             await delay(0.2);
@@ -183,7 +183,7 @@ var test3 = async () => {
 
 
             // thermal - radio 1
-            let thermalName = './images/t_'+fileName
+            let thermalName = 't_'+fileName
             radioForChannel[1].click();
             await delay(0.2);
 
